@@ -1,17 +1,25 @@
 import React, { FC } from "react";
-import { StatusBar } from "expo-status-bar";
+import { StatusBar, StyleSheet } from "react-native";
 import { HomeScreen } from "./src/screens/HomeScreen";
-import { SafeAreaView } from "react-native/types_generated/index";
+import { MatchesScreen } from "./src/screens/MatchesScreen";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 const App: FC = () => {
+  // true = Home, false = Matches list
   const showHome = false;
 
   return (
-    <SafeAreaView>
+    <SafeAreaProvider style={styles.container}>
       <StatusBar barStyle={showHome ? "light-content" : "dark-content"} />
       {showHome ? <HomeScreen /> : <MatchesScreen />}
-    </SafeAreaView>
+    </SafeAreaProvider>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
 
 export default App;
