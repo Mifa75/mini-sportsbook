@@ -1,15 +1,30 @@
 import React, { FC } from "react";
-import { FlatList, StyleSheet, Text } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import {
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+  View,
+} from "react-native";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { MatchCard } from "../components/MatchCard";
 import { matches } from "../data/matches";
 import { Match } from "../types/match";
+import { MatchesStackParamList } from "../navigation/MatchesNavigator";
 
-export const MatchesScreen: FC = () => {
-  const renderItem = ({ item }: { item: Match }) => <MatchCard match={item} />;
+type Props = NativeStackScreenProps<MatchesStackParamList, "MatchesList">;
+
+export const MatchesScreen: React.FC<Props> = ({ navigation }) => {
+  const renderItem = ({ item }: { item: Match }) => (
+    <TouchableOpacity
+      onPress={() => navigation.navigate("MatchDetail", { match: item })}
+    >
+      <MatchCard match={item} />
+    </TouchableOpacity>
+  );
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <Text style={styles.header}>Today&apos;s Games</Text>
 
       <FlatList
@@ -18,7 +33,7 @@ export const MatchesScreen: FC = () => {
         renderItem={renderItem}
         contentContainerStyle={styles.listContent}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 
